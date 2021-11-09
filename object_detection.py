@@ -8,8 +8,19 @@ video = r"data\road.mp4"
 # Model
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 font = cv2.FONT_HERSHEY_SIMPLEX
-threshold = 0.4
+threshold = 0.1
 cap = cv2.VideoCapture(video)
+
+# calculate the center of the image
+h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+
+
+center = (w / 2, h/ 2)
+
+angle270 = 270
+
+scale = 1.0
 
 success = True
 start_time  = time.time()
@@ -22,7 +33,8 @@ while success:
 
 	if not success:
 		break
-
+	# M = cv2.getRotationMatrix2D(center, angle270, scale)  #uncomment if video feed is rotated
+	# frame = cv2.warpAffine(frame, M, (w, h))
 	output = model(frame)
 
 	
